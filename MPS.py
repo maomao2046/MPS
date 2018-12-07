@@ -1,7 +1,7 @@
 import numpy as np
 
 '''
-MPS implementation Tensor Networks
+MPS implementation Tensor Network
 '''
 d = 3
 k = 2
