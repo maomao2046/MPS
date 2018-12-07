@@ -50,32 +50,3 @@ print('error = sqrt((psi - psi_t)^2)', error)
 
 
 
-
-'''
-# Working for three indices
-
-psi = np.floor(np.random.randn(d, d, d))
-u1, s1, v1 = np.linalg.svd(np.reshape(psi, (d, d * d)), full_matrices=True)
-s1m = np.zeros([u1.shape[1], v1.shape[0]])
-np.fill_diagonal(s1m, s1)
-v1 = np.reshape(v1, (d ** 2, d, d))
-
-psi_t = np.tensordot(u1, s1m, (len(np.shape(u1)) - 1, 0))
-psi_t = np.tensordot(psi_t, v1, (len(np.shape(psi_t)) - 1, 0))
-
-print('u1 shape - ', u1.shape)
-print('s1m shape - ', s1m.shape)
-print('v1 shape - ', v1.shape)
-print('psi shape - ', psi.shape)
-print('psi_t shape - ', psi_t.shape)
-
-
-norm_of_psi = np.linalg.norm(psi)
-norm_of_psi_t = np.linalg.norm(psi_t)
-error = np.linalg.norm(psi - psi_t)
-
-print('|psi| = ', norm_of_psi)
-print('|psi_t| = ', norm_of_psi_t)
-print('error = sqrt((psi - psi_t)^2)', error)
-'''
-
