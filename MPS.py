@@ -27,7 +27,9 @@ def matrix_product_state(psi, k):
             new_shape = (d, d ** (n - 1))
             u0, s0, v0 = np.linalg.svd(np.reshape(psi, new_shape), full_matrices=True)
             # Truncation
-            #trunc = min(k, d)
+            trunc = min(k, d)
+            if len(s0) > trunc:
+                s0[trunc:-1] = 0
             #u0 = u0[:, 0:trunc]
             #s0 = s0[0:trunc]
             #v0 = v0[0:trunc, :]
@@ -43,7 +45,9 @@ def matrix_product_state(psi, k):
             new_shape = (d ** (n + 1 - i), d ** (n - 1 - i))
             u0, s0, v0 = np.linalg.svd(np.reshape(v[i - 1], new_shape), full_matrices=True)
             # Truncation
-            #trunc = min(k, d ** (n - i + 1))
+            trunc = min(k, d ** (n - i + 1))
+            if len(s0) > trunc:
+                s0[trunc:-1] = 0
             #u0 = u0[:, 0:trunc]
             #s0 = s0[0:trunc]
             #v0 = v0[0:trunc, :]
