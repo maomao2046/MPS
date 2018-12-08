@@ -2,7 +2,7 @@ import numpy as np
 
 '''
  matrix_product_state is a function which given the tensor coefficient
- of an N spins with dimension d wave function would convert this tensor
+ of an N spins with dimension d wave function 'psi' would convert this tensor
  into a matrix product state (MPS) tensor network (TN) with truncation 
  variable 'k' (the approximation index)
  
@@ -27,6 +27,10 @@ def matrix_product_state(psi, k):
             new_shape = (d, d ** (n - 1))
             u0, s0, v0 = np.linalg.svd(np.reshape(psi, new_shape), full_matrices=True)
             # Truncation
+            #trunc = min(k, d)
+            #u0 = u0[:, 0:trunc]
+            #s0 = s0[0:trunc]
+            #v0 = v0[0:trunc, :]
 
             s[i] = np.zeros([u0.shape[1], v0.shape[0]])
             np.fill_diagonal(s[i], s0)
@@ -39,6 +43,10 @@ def matrix_product_state(psi, k):
             new_shape = (d ** (n + 1 - i), d ** (n - 1 - i))
             u0, s0, v0 = np.linalg.svd(np.reshape(v[i - 1], new_shape), full_matrices=True)
             # Truncation
+            #trunc = min(k, d ** (n - i + 1))
+            #u0 = u0[:, 0:trunc]
+            #s0 = s0[0:trunc]
+            #v0 = v0[0:trunc, :]
 
             s[i] = np.zeros([u0.shape[1], v0.shape[0]])
             np.fill_diagonal(s[i], s0)

@@ -2,18 +2,18 @@ import numpy as np
 import MPS as MPS
 
 d = 3
-k = 2
 n = 6
+k = d ** (n - 1)
 spins = tuple(np.ones(n, dtype=int) * d)
 
-psi = np.floor(np.random.randn(d, d, d, d, d, d))
+psi = np.floor(np.random.randn(*spins))
 mps = MPS.matrix_product_state(psi, k)
 psi_t = np.tensordot(mps[0], mps[1], (len(np.shape(mps[0])) - 1, 0))
 print('u0 shape - ', mps[0].shape)
 print('s0 shape - ', mps[1].shape)
 
 ju = 1
-js = 2
+js = 1
 for i in range(2, 2 * n - 1):
     psi_t = np.tensordot(psi_t, mps[i], (len(np.shape(psi_t)) - 1, 0))
     if not np.mod(i, 2):
