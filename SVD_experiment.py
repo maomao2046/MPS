@@ -1,5 +1,5 @@
 import numpy as np
-
+'''
 d = 10
 khi = 4
 epsilon = 1e-6
@@ -53,3 +53,30 @@ error = np.linalg.norm(psi - psi_t)
 print('|psi| = ', norm_of_psi)
 print('|psi_t| = ', norm_of_psi_t)
 print('error = ', error)
+'''
+
+d = 2
+n = 4
+spins = tuple(np.ones(n, dtype=int) * d)
+psi = np.random.randn(*spins)
+psi /= np.linalg.norm(psi)
+
+
+A = np.matrix(np.reshape(psi, (d ** (n / 2), d ** (n / 2))))
+H = A + np.matrix.getH(A)
+U = np.exp(- 1j * H)
+I = np.matmul(U, np.matrix.getH(U))
+V = np.reshape(U, (d, d ** (n - 1)))
+u0, s0, v0 = np.linalg.svd(V, full_matrices=True)
+
+print('H = ', H)
+print('\n')
+print('U = ', U)
+print('\n')
+print('U shape = ', U.shape)
+print('\n')
+print('U * U ^ dagger = ', I)
+print('\n')
+print('s0 diag = ', s0)
+
+

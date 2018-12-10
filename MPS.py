@@ -26,6 +26,10 @@ def matrix_product_state(psi, k):
         if i == 0:
             new_shape = (d, d ** (n - 1))
             u0, s0, v0 = np.linalg.svd(np.reshape(psi, new_shape), full_matrices=True)
+            print('Psi = ', np.reshape(psi, new_shape))
+            print('Psi shape = ', new_shape)
+            print('\n')
+
             # Truncation
             trunc = min(k, d)
             if len(s0) > trunc:
@@ -44,6 +48,12 @@ def matrix_product_state(psi, k):
         else:
             new_shape = (d ** (n + 1 - i), d ** (n - 1 - i))
             u0, s0, v0 = np.linalg.svd(np.reshape(v[i - 1], new_shape), full_matrices=True)
+            print('The eigenvalues of S[i] = ', s0)
+            print('\n')
+            print('v[' + str(i - 1) + '] = ', np.reshape(v[i - 1], new_shape))
+            print('v[' + str(i - 1) + '] shape = ', new_shape)
+            print('\n')
+
             # Truncation
             trunc = min(k, d ** (n - i + 1))
             if len(s0) > trunc:
@@ -56,6 +66,7 @@ def matrix_product_state(psi, k):
             np.fill_diagonal(s[i], s0)
             u[i] = np.reshape(u0, (d ** (n - i), d, d ** (n + 1 - i)))
             v[i] = v0
+
     u[i + 1] = v0
     j = 0
     for i in range(0, 2 * n - 2, 2):
