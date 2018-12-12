@@ -1,4 +1,7 @@
 import numpy as np
+import scipy.linalg
+import scipy as sp
+import matplotlib.pyplot as plt
 '''
 d = 10
 khi = 4
@@ -57,6 +60,8 @@ print('error = ', error)
 
 d = 2
 n = 4
+VVV = []
+SSS = []
 spins = tuple(np.ones(n, dtype=int) * d)
 psi = np.random.randn(*spins)
 psi /= np.linalg.norm(psi)
@@ -64,11 +69,23 @@ psi /= np.linalg.norm(psi)
 
 A = np.matrix(np.reshape(psi, (d ** (n / 2), d ** (n / 2))))
 H = A + np.matrix.getH(A)
-U = np.exp(- 1j * H)
-I = np.matmul(U, np.matrix.getH(U))
-V = np.reshape(U, (d, d ** (n - 1)))
-u0, s0, v0 = np.linalg.svd(V, full_matrices=True)
+U = np.matrix(scipy.linalg.expm(- 1j * H))
+# A = np.matrix(np.eye(d ** (n / 2)))
+# U = np.matrix(np.eye(d ** (n / 2)))
+# I = np.matmul(U, np.matrix.getH(U))
+for s in range(0, n + 1):
 
+    a = d ** s
+    b = d ** (n - s)
+    #guess = np.log(b / a) / np.log(d) / 2 * np.sqrt(d)
+    V = np.reshape(U, (a, b))
+    u0, s0, v0 = np.linalg.svd(V, full_matrices=True)
+    VVV.append(s)
+    SSS.append(s0[0])
+    print(V.shape)
+    print(s0)
+    print('\n')
+'''    
 print('H = ', H)
 print('\n')
 print('U = ', U)
@@ -78,5 +95,16 @@ print('\n')
 print('U * U ^ dagger = ', I)
 print('\n')
 print('s0 diag = ', s0)
+print('\n')
+print('guess = ', guess)
+'''
 
-
+ticks = []
+labels = []
+for i in range(n / 2 + 1):
+    ticks.append(np.sqrt(d) ** i)
+    labels.append('sqrt(d)^' + str(i))
+plt.figure()
+plt.plot(VVV, SSS, 'o')
+plt.yticks(ticks, labels)
+plt.show()
