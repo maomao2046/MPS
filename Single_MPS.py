@@ -3,20 +3,18 @@ import MPS as MPS
 import matplotlib.pyplot as plt
 
 d = 2
-n = 6
-epsilon = 1e-20
+n = 10
+k = np.int(d ** (np.floor(n / 2)))
 spins = tuple(np.ones(n, dtype=int) * d)
 
 psi = np.random.randn(*spins)
 psi /= np.linalg.norm(psi)
-print('Psi0 = ', np.reshape(psi, (d, d ** (n - 1))))
 
 norm_of_psi_t = 0
 error = 0
-k = d ** 10
 
 
-mps = MPS.matrix_product_state(psi, k)
+mps = MPS.canon_matrix_product_state(psi, k)
 psi_t = np.tensordot(mps[0], mps[1], (len(np.shape(mps[0])) - 1, 0))
 print('u0 shape - ', mps[0].shape)
 print('s0 shape - ', mps[1].shape)
@@ -36,5 +34,7 @@ norm_of_psi = np.linalg.norm(psi)
 norm_of_psi_t = (np.linalg.norm(psi_t))
 error = (np.linalg.norm(psi - psi_t))
 
+print('norm_of_psi = ', norm_of_psi)
+print('norm_of_psi_t = ', norm_of_psi_t)
 print('error = ', error)
 

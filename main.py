@@ -4,28 +4,32 @@ import matplotlib.pyplot as plt
 
 d = 2
 n = 10
-epsilon = 1e-20
+epsilon = 1e-2
 spins = tuple(np.ones(n, dtype=int) * d)
 
+'''
 # GHZ + noise
-#ghz = np.zeros(spins, dtype=float)
-#ghz[0, 0, 0, 0, 0, 0, 0, 0, 0, 0] = 1 / np.sqrt(2)
-#ghz[1, 1, 1, 1, 1, 1, 1, 1, 1, 1] = 1 / np.sqrt(2)
-#noise = np.floor(np.random.randn(*spins))
-#psi = epsilon * noise + ghz
+ghz = np.zeros(spins, dtype=float)
+ghz[0, 0, 0, 0, 0, 0, 0, 0, 0, 0] = 1 / np.sqrt(2)
+ghz[1, 1, 1, 1, 1, 1, 1, 1, 1, 1] = 1 / np.sqrt(2)
+noise = np.floor(np.random.randn(*spins))
+psi = epsilon * noise + ghz
+'''
 
-#psi = np.zeros(spins, dtype=float)
-#psi[1, 0, 0, 0, 0, 0, 0, 0, 0, 0] = 1
-#psi[0, 1, 0, 0, 0, 0, 0, 0, 0, 0] = 1
-#psi[0, 0, 1, 0, 0, 0, 0, 0, 0, 0] = 1
-#psi[0, 0, 0, 1, 0, 0, 0, 0, 0, 0] = 1
-#psi[0, 0, 0, 0, 1, 0, 0, 0, 0, 0] = 1
-#psi[0, 0, 0, 0, 0, 1, 0, 0, 0, 0] = 1
-#psi[0, 0, 0, 0, 0, 0, 1, 0, 0, 0] = 1
-#psi[0, 0, 0, 0, 0, 0, 0, 1, 0, 0] = 1
-#psi[0, 0, 0, 0, 0, 0, 0, 0, 1, 0] = 1
-#psi[0, 0, 0, 0, 0, 0, 0, 0, 0, 1] = 1
+'''
+psi = np.zeros(spins, dtype=float)
+psi[1, 0, 0, 0, 0, 0, 0, 0, 0, 0] = 1
+psi[0, 1, 0, 0, 0, 0, 0, 0, 0, 0] = 1
+psi[0, 0, 1, 0, 0, 0, 0, 0, 0, 0] = 1
+psi[0, 0, 0, 1, 0, 0, 0, 0, 0, 0] = 1
+psi[0, 0, 0, 0, 1, 0, 0, 0, 0, 0] = 1
+psi[0, 0, 0, 0, 0, 1, 0, 0, 0, 0] = 1
+psi[0, 0, 0, 0, 0, 0, 1, 0, 0, 0] = 1
+psi[0, 0, 0, 0, 0, 0, 0, 1, 0, 0] = 1
+psi[0, 0, 0, 0, 0, 0, 0, 0, 1, 0] = 1
+psi[0, 0, 0, 0, 0, 0, 0, 0, 0, 1] = 1
 #s = 'psi = |100...0> + |010...0> + ... + |000...1>'
+'''
 
 psi = np.floor(np.random.randn(*spins))
 psi /= np.linalg.norm(psi)
@@ -34,9 +38,10 @@ norm_of_psi_t = []
 error = []
 k = []
 
-for i in range(0, 500):
+for i in range(0, np.int(np.floor(d ** (n / 2 - 1)))):
 
     k.append(i)
+    #mps = MPS.canon_matrix_product_state(psi, k[i])
     mps = MPS.matrix_product_state(psi, k[i])
     psi_t = np.tensordot(mps[0], mps[1], (len(np.shape(mps[0])) - 1, 0))
     print('u0 shape - ', mps[0].shape)
@@ -60,7 +65,6 @@ for i in range(0, 500):
 
 plt.figure()
 plt.title('MPS vs True wave function')
-plt.text(len(k) / 3, 0.9, s)
 plt.plot(k, norm_of_psi * np.ones(len(k)), 'y')
 plt.plot(k, norm_of_psi_t, '.')
 plt.plot(k, error, '.')
