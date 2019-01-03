@@ -2,6 +2,11 @@ import numpy as np
 import scipy.linalg
 import scipy as sp
 import matplotlib.pyplot as plt
+import dmrg101
+
+
+a = dmrg101
+
 '''
 d = 10
 khi = 4

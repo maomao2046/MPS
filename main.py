@@ -3,7 +3,7 @@ import MPS as MPS
 import matplotlib.pyplot as plt
 
 d = 2
-n = 10
+n = 12
 epsilon = 1e-2
 spins = tuple(np.ones(n, dtype=int) * d)
 
@@ -41,8 +41,8 @@ k = []
 for i in range(0, np.int(np.floor(d ** (n / 2 - 1)))):
 
     k.append(i)
-    #mps = MPS.canon_matrix_product_state(psi, k[i])
-    mps = MPS.matrix_product_state(psi, k[i])
+    mps = MPS.canon_matrix_product_state(psi, k[i])
+    #mps = MPS.matrix_product_state(psi, k[i])
     psi_t = np.tensordot(mps[0], mps[1], (len(np.shape(mps[0])) - 1, 0))
     print('u0 shape - ', mps[0].shape)
     print('s0 shape - ', mps[1].shape)
