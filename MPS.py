@@ -1,4 +1,5 @@
 import numpy as np
+import copy as cp
 
 '''
  matrix_product_state is a function which given a tensor coefficients
@@ -133,4 +134,39 @@ def canon_matrix_product_state(psi, k):
     mps[2 * n - 2] = u[n - 1]
 
     return mps
+
+
+def mps_contraction_to_single_tensor(mps, bc=None):
+
+    n = len(mps.keys())
+    psi = np.array(mps[0])
+    for i in range(1, n):
+        psi = np.tensordot(psi, mps[i], (len(np.shape(psi)) - 1, 0))
+    if bc == 'PBC':
+        psi = np.trace(psi, 0, len(psi.shape) - 1)
+
+    return psi
+
+
+def spin_measurement(mps, spin_number, operator, physical_index, bc=None):
+    psi_star = cp.deepcopy(np.conj(mps))
+    spin_number = 2 * spin_number
+    mps[spin_number] = np.tensordot(mps[spin_number], operator, (physical_index, 0))
+    psi = mps
+    L = closed_mps_side_contraction(psi, psi_star, spin_number, 'left', bc)
+    R = closed_mps_side_contraction(psi, psi_star, spin_number, 'right', bc)
+    M = np.tensordot(psi[spin_number], psi_star[spin_number], (physical_index, physical_index))
+
+    LM = np.einsum('ijkl,jmln->ikmn', L, M)
+    expectation = np.einsum('ijkl,jilm->', LM, R)
+    return expectation
+
+def closed_mps_side_contraction(psi, psi_star, spin_number, side, bc):
+    
+
+
+
+
+
+
 
