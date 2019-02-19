@@ -136,5 +136,54 @@ def canon_matrix_product_state(psi, k):
     return mps
 
 
+def physicalmps(mps, bc):
+    """
+        Contracting the virtual tensors in a mps, returns an mps with only physical tensors.
+    """
+    new_mps = {}
+    k = 0
+    if bc == 'PBC':
+        for i in range(0, len(mps.keys), 2):
+            new_mps[k] = np.einsum('ijk,kl->ijl', mps[i], mps[i + 1])
+            k += 1
+
+    if bc == 'OPEN':
+        for i in range(1, len(mps.keys), 2):
+            new_mps[k] = np.einsum('ij,jkl->ikl', mps[i], mps[i + 1])
+            k += 1
+
+    return new_mps
+
+
+def mps2tensor(mps):
+    """
+        Contracting the mps into a single tensor.
+    """
+    tensor = mps[0]
+    if len(mps.keys()) == 3:
+        for i in range(1,3):
+            tensor = np.einsum('...k,kl->...l',tensor, mps[i])
+    else:
+        for i in range(1, len(mps.keys())):
+            if np.mod(i, 2):
+                idx_tensor = range(len(tensor.shape))
+                idx_next_mps = [idx_tensor[-1], len(idx_tensor)]
+                final_idx = idx_tensor
+                final_idx[-1] = len(idx_tensor)
+                tensor = np.einsum(tensor, idx_tensor, mps[i], idx_next_mps, final_idx)
+            else:
+                idx_tensor = range(len(tensor.shape))
+                idx_next_mps = [idx_tensor[-1], len(idx_tensor) ,len(idx_tensor) + 1]
+                final_idx = cp.copy(idx_tensor)
+                final_idx[-1] = len(idx_tensor)
+                final_idx.append(len(idx_tensor) + 1)
+                tensor = np.einsum(tensor, idx_tensor, mps[i], idx_next_mps, final_idx)
+    return tensor
+
+
+
+
+
+
 
 

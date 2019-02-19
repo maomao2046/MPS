@@ -97,5 +97,26 @@ class MPS:
         psi[spin2_idx] = np.einsum('ijk,jn->ink', psi[spin2_idx], operator2)
         return self.braket(self.Dagger(), psi)
 
+    def NormalizationFactor(self):
+        norm = self.braket(self.Dagger(), self.mps)
+        return norm
+
+"""
+    def SingleSpinMeasure(self, spin, operator):
+        ltensor = self.LeftContraction(spin)
+        rtensor = self.RightContraction(spin)
+        expectation = self.FinalContraction(ltensor, rtensor, operator)
+        return expectation
+
+    def LeftContraction(self, stop_spin):
+        mps_stop_idx = stop_spin * 2
+        mps = cp.deepcopy(self.mps)
+
+
+    def RightContraction(self, stop_spin):
+
+    def FinalContraction(self, left_contraction, right_contraction, operator):
+"""
+
 
 
