@@ -1,9 +1,10 @@
 import numpy as np
 import matrix_product_state as mps
 import matplotlib.pyplot as plt
+import MPS as ms
 
 # 1D AKLT
-n = 50
+n = 6
 spin1_tensor = np.array([[[1, 0], [0, 0]], [[0, 1/np.sqrt(2)], [1/np.sqrt(2), 0]], [[0, 0], [0, 1]]])
 #spin1_tensor = np.array([[[0, np.sqrt(2. / 3)], [0, 0]], [[- np.sqrt(1. / 3), 0], [0, np.sqrt(1. / 3)]], [[0, 0], [- np.sqrt(2. / 3), 0]]])
 singlet = np.array([[0, 1/np.sqrt(2)], [-1/np.sqrt(2), 0]])
@@ -77,3 +78,5 @@ print('#########################################################################
 print('senity check is good')
 print('$$$ need to rewrite the contraction over the PBC $$$')
 print('\n')
+
+psi = ms.mps2tensor(aklt.mps)

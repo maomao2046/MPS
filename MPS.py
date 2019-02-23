@@ -157,27 +157,16 @@ def physicalmps(mps, bc):
 
 def mps2tensor(mps):
     """
-        Contracting the mps into a single tensor.
+        Contracting (from left to right)the N spins mps into an N legs single tensor.
     """
-    tensor = mps[0]
-    if len(mps.keys()) == 3:
-        for i in range(1,3):
-            tensor = np.einsum('...k,kl->...l',tensor, mps[i])
-    else:
-        for i in range(1, len(mps.keys())):
-            if np.mod(i, 2):
-                idx_tensor = range(len(tensor.shape))
-                idx_next_mps = [idx_tensor[-1], len(idx_tensor)]
-                final_idx = idx_tensor
-                final_idx[-1] = len(idx_tensor)
-                tensor = np.einsum(tensor, idx_tensor, mps[i], idx_next_mps, final_idx)
-            else:
-                idx_tensor = range(len(tensor.shape))
-                idx_next_mps = [idx_tensor[-1], len(idx_tensor) ,len(idx_tensor) + 1]
-                final_idx = cp.copy(idx_tensor)
-                final_idx[-1] = len(idx_tensor)
-                final_idx.append(len(idx_tensor) + 1)
-                tensor = np.einsum(tensor, idx_tensor, mps[i], idx_next_mps, final_idx)
+    tensor = cp.copy(mps[0])
+    for i in range(1, len(mps.keys())):
+        ltenidx = range(len(tensor.shape))
+        rtenidx = range(ltenidx[-1], ltenidx[-1] + len(mps[i].shape))
+        finalidx = cp.copy(ltenidx)
+        finalidx.extend(rtenidx)
+        del finalidx[len(ltenidx) - 1: len(ltenidx) + 1]
+        tensor = np.einsum(tensor, ltenidx, mps[i], rtenidx, finalidx)
     return tensor
 
 
