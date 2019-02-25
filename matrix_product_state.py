@@ -1,5 +1,6 @@
 import numpy as np
 import copy as cp
+import MPS as ms
 
 
 class MPS:
@@ -7,8 +8,16 @@ class MPS:
     def __init__(self, boundary_condition, model_name=None):
         self.model_name = model_name
         self.mps = {}
+        self.reduced_mps = None
         self.tensor_count = 0
         self.bc = boundary_condition
+
+
+    def wavefunction2mps(self, psi, k):
+        mps = ms.canon_matrix_product_state(psi, k)
+        for item in mps.keys():
+            self.mps[item] = mps[item]
+            self.tensor_count += 1
 
     def add_physical_tensor(self, tensor, physical_leg):
         if self.bc == 'PBC':
@@ -65,7 +74,7 @@ class MPS:
             expectation = element
 
         if self.bc == 'OPEN':
-            element = np.einsum('ij,jk->ik', psi[0], phi_dagger[0])
+            element = np.einsum('ij,ik->jk', psi[0], phi_dagger[0])
             for i in range(1, n, 2):
                 element = np.einsum('ij,in->nj', element, psi[i])
                 element = np.einsum('ij,jn->in', element, phi_dagger[i])
@@ -101,22 +110,84 @@ class MPS:
         norm = self.braket(self.Dagger(), self.mps)
         return norm
 
-"""
     def SingleSpinMeasure(self, spin, operator):
+        """
+            only for an open boundary condition mps
+        """
         ltensor = self.LeftContraction(spin)
         rtensor = self.RightContraction(spin)
-        expectation = self.FinalContraction(ltensor, rtensor, operator)
+        expectation = self.FinalContraction(ltensor, rtensor, spin, operator)
         return expectation
 
     def LeftContraction(self, stop_spin):
         mps_stop_idx = stop_spin * 2
         mps = cp.deepcopy(self.mps)
-
+        mpsdag = self.Dagger()
+        if mps_stop_idx == 0:
+            return 1
+        temp1 = np.einsum('ij,jk->ik', mps[0], mps[1])
+        temp2 = np.einsum('ij,jk->ik', mpsdag[0], mpsdag[1])
+        ltensor = np.einsum('ij,ik->jk', temp1, temp2)
+        for i in range(2, mps_stop_idx, 2):
+            spintensor = np.einsum('ijk,ljm->ilkm', mps[i], mpsdag[i])
+            ltensor = np.einsum('ij,ijkl->kl', ltensor, spintensor)
+            ltensor = np.einsum('ij,ik->kj', ltensor, mps[i + 1])
+            ltensor = np.einsum('ij,jk->ik', ltensor, mpsdag[i + 1])
+        return ltensor
 
     def RightContraction(self, stop_spin):
+        mps = cp.deepcopy(self.mps)
+        mps_stop_idx = stop_spin * 2
+        mpsdag = self.Dagger()
+        n = len(mps.keys()) - 1
+        if mps_stop_idx == n:
+            return 1
+        temp1 = np.einsum('ij,jk->ik', mps[n - 1], mps[n])
+        temp2 = np.einsum('ij,jk->ik', mpsdag[n - 1], mpsdag[n])
+        rtensor = np.einsum('ij,kj->ik', temp1, temp2)
+        for i in range(n - 2, mps_stop_idx, -2):
+            spintensor = np.einsum('ijk,ljm->ilkm', mps[i], mpsdag[i])
+            rtensor = np.einsum('ijkl,kl->ij', spintensor, rtensor)
+            rtensor = np.einsum('ij,jk->ik', mps[i - 1], rtensor)
+            rtensor = np.einsum('ij,kj->ki', mpsdag[i - 1], rtensor)
+        return rtensor
 
-    def FinalContraction(self, left_contraction, right_contraction, operator):
-"""
+    def FinalContraction(self, left_contraction, right_contraction, spin, operator):
+        mps = cp.deepcopy(self.mps)
+        mpsdag = cp.deepcopy(self.Dagger())
+        mps_spin_idx = spin * 2
+        if mps_spin_idx == 0:
+            midtensor = np.einsum('ij,il->lj', mps[mps_spin_idx], operator)
+            midtensor = np.einsum('ij,il->lj', midtensor, mpsdag[mps_spin_idx])
+            element = np.einsum('ij,ji->', midtensor, right_contraction)
+
+        elif (mps_spin_idx - len(mps.keys())) == -1:
+            midtensor = np.einsum('ij,jk->ik', mps[mps_spin_idx], operator)
+            midtensor = np.einsum('ij,kj->ik', midtensor, mpsdag[mps_spin_idx])
+            element = np.einsum('ij,ij->', left_contraction, midtensor)
+
+        else:
+            midtensor = np.einsum('ijk,jl->ilk', mps[mps_spin_idx], operator)
+            midtensor = np.einsum('ijk,njl->inkl', midtensor, mpsdag[mps_spin_idx])
+            element = np.einsum('ijkl,kl->ij', midtensor, right_contraction)
+            element = np.einsum('ij,ij->', left_contraction, element)
+        return element
+
+    def VirtualTensorContraction(self):
+        self.reduced_mps = {}
+        if self.bc == 'OPEN':
+            k = 1
+            self.reduced_mps[0] = np.einsum('ij,jk->ik', self.mps[0], self.mps[1])
+            for i in range(2, self.tensor_count - 1, 2):
+                self.reduced_mps[k] = np.einsum('ijk,kl->ijl', self.mps[i], self.mps[i + 1])
+                k += 1
+            self.reduced_mps[k] = self.mps[self.tensor_count - 1]
+
+
+
+
+
+
 
 
 

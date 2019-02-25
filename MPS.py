@@ -136,25 +136,6 @@ def canon_matrix_product_state(psi, k):
     return mps
 
 
-def physicalmps(mps, bc):
-    """
-        Contracting the virtual tensors in a mps, returns an mps with only physical tensors.
-    """
-    new_mps = {}
-    k = 0
-    if bc == 'PBC':
-        for i in range(0, len(mps.keys), 2):
-            new_mps[k] = np.einsum('ijk,kl->ijl', mps[i], mps[i + 1])
-            k += 1
-
-    if bc == 'OPEN':
-        for i in range(1, len(mps.keys), 2):
-            new_mps[k] = np.einsum('ij,jkl->ikl', mps[i], mps[i + 1])
-            k += 1
-
-    return new_mps
-
-
 def mps2tensor(mps):
     """
         Contracting (from left to right)the N spins mps into an N legs single tensor.
