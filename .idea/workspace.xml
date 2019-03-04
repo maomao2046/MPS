@@ -2,16 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="42d3998f-3606-4d4b-96d2-6087d96e4033" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/Calculations_and_Plots_complex.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/FactorGraph.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/LBP_FactorGraphs_complex.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/TN2FG.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/wavefunction.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/check_FG.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Hamiltonian.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/MPS.py" beforeDir="false" afterPath="$PROJECT_DIR$/MPS.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Single_MPS.py" beforeDir="false" afterPath="$PROJECT_DIR$/Single_MPS.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/matrix_product_state.py" beforeDir="false" afterPath="$PROJECT_DIR$/matrix_product_state.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FactorGraph.py" beforeDir="false" afterPath="$PROJECT_DIR$/FactorGraph.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TN2FG.py" beforeDir="false" afterPath="$PROJECT_DIR$/TN2FG.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -26,8 +20,9 @@
     <SUITE FILE_PATH="coverage/MPS$MPS.coverage" NAME="MPS Coverage Results" MODIFIED="1544219719523" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/MPS$SVD_experiment.coverage" NAME="SVD_experiment Coverage Results" MODIFIED="1544084089636" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/MPS$Single_MPS.coverage" NAME="Single_MPS Coverage Results" MODIFIED="1550948481003" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/MPS$TN2FG.coverage" NAME="TN2FG Coverage Results" MODIFIED="1551118488423" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/MPS$TN2FG.coverage" NAME="TN2FG Coverage Results" MODIFIED="1551179856296" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/MPS$main.coverage" NAME="main Coverage Results" MODIFIED="1544295887834" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/MPS$check_FG.coverage" NAME="check_FG Coverage Results" MODIFIED="1551426093659" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
   <component name="DatabaseView">
     <option name="SHOW_INTERMEDIATE" value="true" />
@@ -48,7 +43,7 @@
       <file leaf-file-name="matrix_product_state.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/matrix_product_state.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="221">
+            <state relative-caret-position="2620">
               <caret line="180" column="30" selection-start-line="180" selection-start-column="30" selection-end-line="180" selection-end-column="30" />
               <folding>
                 <element signature="e#0#18#0" expanded="true" />
@@ -57,11 +52,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="TN2FG.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="TN2FG.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/TN2FG.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="329">
-              <caret line="46" selection-start-line="46" selection-end-line="46" />
+            <state relative-caret-position="284">
+              <caret line="90" lean-forward="true" selection-start-line="90" selection-end-line="90" />
               <folding>
                 <element signature="e#0#18#0" expanded="true" />
               </folding>
@@ -69,11 +64,23 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="FactorGraph.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="check_FG.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/check_FG.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="195">
+              <caret line="13" column="23" lean-forward="true" selection-start-line="13" selection-start-column="23" selection-end-line="13" selection-end-column="23" />
+              <folding>
+                <element signature="e#0#18#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="FactorGraph.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/FactorGraph.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="302">
-              <caret line="51" column="30" selection-start-line="51" selection-start-column="30" selection-end-line="51" selection-end-column="30" />
+            <state relative-caret-position="193">
+              <caret line="68" column="20" lean-forward="true" selection-start-line="68" selection-start-column="20" selection-end-line="68" selection-end-column="20" />
               <folding>
                 <element signature="e#0#18#0" expanded="true" />
               </folding>
@@ -115,8 +122,9 @@
         <option value="$PROJECT_DIR$/matrix_product_state.py" />
         <option value="$PROJECT_DIR$/Calculations_and_Plots_complex.py" />
         <option value="$PROJECT_DIR$/LBP_FactorGraphs_complex.py" />
-        <option value="$PROJECT_DIR$/TN2FG.py" />
+        <option value="$PROJECT_DIR$/check_FG.py" />
         <option value="$PROJECT_DIR$/FactorGraph.py" />
+        <option value="$PROJECT_DIR$/TN2FG.py" />
       </list>
     </option>
   </component>
@@ -179,7 +187,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.TN2FG">
+  <component name="RunManager" selected="Python.check_FG">
     <configuration name="AKLT_state" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="MPS" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -194,25 +202,6 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/AKLT_state.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="true" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-    </configuration>
-    <configuration name="MPS" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <module name="MPS" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/MPS.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="true" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -275,6 +264,25 @@
       <option name="EMULATE_TERMINAL" value="false" />
       <option name="MODULE_MODE" value="false" />
     </configuration>
+    <configuration name="check_FG" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="MPS" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/check_FG.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="true" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+    </configuration>
     <configuration name="main" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="MPS" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -296,19 +304,19 @@
     </configuration>
     <list>
       <item itemvalue="Python.SVD_experiment" />
-      <item itemvalue="Python.MPS" />
       <item itemvalue="Python.main" />
       <item itemvalue="Python.Single_MPS" />
       <item itemvalue="Python.AKLT_state" />
       <item itemvalue="Python.TN2FG" />
+      <item itemvalue="Python.check_FG" />
     </list>
     <recent_temporary>
       <list>
         <item itemvalue="Python.TN2FG" />
+        <item itemvalue="Python.check_FG" />
         <item itemvalue="Python.Single_MPS" />
         <item itemvalue="Python.AKLT_state" />
         <item itemvalue="Python.main" />
-        <item itemvalue="Python.MPS" />
       </list>
     </recent_temporary>
   </component>
@@ -334,7 +342,7 @@
       <window_info anchor="bottom" id="Database Changes" order="9" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="8" />
       <window_info anchor="bottom" id="Python Console" order="10" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.23891273" />
+      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.40057224" />
       <window_info anchor="bottom" id="Terminal" order="11" />
       <window_info content_ui="combo" id="Project" order="0" weight="0.26037195" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
@@ -342,7 +350,7 @@
       <window_info anchor="right" x="238" y="180" width="963" height="482" id="SciView" order="3" weight="0.56008583" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.4434907" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.26323318" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
@@ -366,6 +374,11 @@
           <line>150</line>
           <option name="timeStamp" value="34" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/FactorGraph.py</url>
+          <line>70</line>
+          <option name="timeStamp" value="41" />
+        </line-breakpoint>
       </breakpoints>
       <default-breakpoints>
         <breakpoint type="python-exception">
@@ -374,7 +387,7 @@
           </properties>
         </breakpoint>
       </default-breakpoints>
-      <option name="time" value="36" />
+      <option name="time" value="42" />
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
@@ -610,13 +623,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/anaconda2/lib/python2.7/copy.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="126">
-          <caret line="71" selection-start-line="71" selection-end-line="71" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$USER_HOME$/Downloads/two_qbit_system.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1091">
@@ -674,16 +680,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/matrix_product_state.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="221">
-          <caret line="180" column="30" selection-start-line="180" selection-start-column="30" selection-end-line="180" selection-end-column="30" />
-          <folding>
-            <element signature="e#0#18#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Calculations_and_Plots_complex.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="59">
@@ -694,20 +690,37 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$USER_HOME$/anaconda2/lib/python2.7/copy.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="141">
+          <caret line="151" selection-start-line="151" selection-end-line="151" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/LBP_FactorGraphs_complex.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1353">
-          <caret line="30" column="42" lean-forward="true" selection-start-line="30" selection-start-column="42" selection-end-line="30" selection-end-column="42" />
+        <state relative-caret-position="341">
+          <caret line="30" column="42" selection-start-line="30" selection-start-column="42" selection-end-line="30" selection-end-column="42" />
           <folding>
             <element signature="e#0#18#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/TN2FG.py">
+    <entry file="file://$PROJECT_DIR$/matrix_product_state.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="329">
-          <caret line="46" selection-start-line="46" selection-end-line="46" />
+        <state relative-caret-position="2620">
+          <caret line="180" column="30" selection-start-line="180" selection-start-column="30" selection-end-line="180" selection-end-column="30" />
+          <folding>
+            <element signature="e#0#18#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/check_FG.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="195">
+          <caret line="13" column="23" lean-forward="true" selection-start-line="13" selection-start-column="23" selection-end-line="13" selection-end-column="23" />
           <folding>
             <element signature="e#0#18#0" expanded="true" />
           </folding>
@@ -716,8 +729,18 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/FactorGraph.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="302">
-          <caret line="51" column="30" selection-start-line="51" selection-start-column="30" selection-end-line="51" selection-end-column="30" />
+        <state relative-caret-position="193">
+          <caret line="68" column="20" lean-forward="true" selection-start-line="68" selection-start-column="20" selection-end-line="68" selection-end-column="20" />
+          <folding>
+            <element signature="e#0#18#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/TN2FG.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="284">
+          <caret line="90" lean-forward="true" selection-start-line="90" selection-end-line="90" />
           <folding>
             <element signature="e#0#18#0" expanded="true" />
           </folding>
