@@ -6,7 +6,7 @@ import wavefunction as wf
 import FactorGraph as fg
 
 
-psi = np.array([[[[1., 1.], [0., 0.]], [[1., 2.], [7.j, -2.]]], [[[1., 1.], [0., 0.]], [[1., 3.], [-4., 0.]]]])
+psi = np.array([[[[-1., 1.], [0., 0.]], [[0., 0.], [3.j, 0.]]], [[[1.j, 0.], [0., 4.]], [[-2.j, 0.], [5., 1.]]]])
 wf = wf.wavefunction()
 wf.addwf(psi, 4, 2)
 
@@ -73,13 +73,14 @@ n0_belief0 = []
 n0_belief1 = []
 n1_belief0 = []
 n1_belief1 = []
-for i in range(1, 29):
+for i in range(1, 100):
     graph.sum_product(i, 1e-6)
     graph.beliefs()
     n0_belief0.append(graph.node_belief['n0'][0])
     n0_belief1.append(graph.node_belief['n0'][1])
     n1_belief0.append(graph.node_belief['n1'][0])
     n1_belief1.append(graph.node_belief['n1'][1])
+    #print(graph.messages_f2n['f2']['n5'])
     print(i)
 
 for i in range(4):

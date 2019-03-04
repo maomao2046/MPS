@@ -66,7 +66,7 @@ class Graph:
                     for item in neighbor_factors:
                         temp_message *= factor2node[item][n]
                     node2factor[n][f] = cp.copy(temp_message)
-                    node2factor[n][f] /= node2factor[n][f].dot(np.transpose(np.conj(node2factor[n][f])))
+                    node2factor[n][f] /= np.sqrt(node2factor[n][f].dot(np.transpose(np.conj(node2factor[n][f]))))
 
             for f in factors.keys():
                 for n in factors[f][0].keys():
@@ -78,7 +78,7 @@ class Graph:
                     for item in neighbor_nodes:
                         tensor *= self.broadcasting(node2factor[item][f], factors[f][0][item], tensor)
                     factor2node[f][n] = np.einsum(tensor, tensor_idx, message_idx)
-                    factor2node[f][n] /= factor2node[f][n].dot(np.transpose(np.conj(factor2node[f][n])))
+                    factor2node[f][n] /= np.sqrt(factor2node[f][n].dot(np.transpose(np.conj(factor2node[f][n]))))
                     if n == 'n1' and f == 'f4':
                         print(factor2node[f][n])
 
