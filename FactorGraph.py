@@ -15,6 +15,7 @@ class Graph:
         self.messages_f2n = None
         self.node_belief = None
         self.factor_belief = None
+        self.DENFGbeliefs = None
 
     def add_node(self, alphabet_size, name):
         self.nodes[name] = [alphabet_size, set()]
@@ -94,6 +95,13 @@ class Graph:
             #self.node_belief[n] *= np.conj(self.node_belief[n])
             #self.node_belief[n] = np.real(self.node_belief[n])
             self.node_belief[n] /= np.sum(np.abs(self.node_belief[n]))
+
+    def DENFG_beliefs(self):
+        self.DENFGbeliefs = {}
+        for n in self.nodes:
+            self.DENFGbeliefs[n] = np.tensordot(self.node_belief[n], np.conj(self.node_belief[n]), 0)
+            self.DENFGbeliefs[n] /= np.trace(self.DENFGbeliefs[n])
+
 
 
 
