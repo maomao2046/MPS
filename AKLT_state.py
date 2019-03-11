@@ -1,10 +1,11 @@
 import numpy as np
 import matrix_product_state as mps
 import matplotlib.pyplot as plt
-import MPS as ms
+import wavefunction as wf
+
 
 # 1D AKLT
-n = 4
+n = 6
 spin1_tensor = np.array([[[1, 0], [0, 0]], [[0, 1/np.sqrt(2)], [1/np.sqrt(2), 0]], [[0, 0], [0, 1]]])
 #spin1_tensor = np.array([[[0, np.sqrt(2. / 3)], [0, 0]], [[- np.sqrt(1. / 3), 0], [0, np.sqrt(1. / 3)]], [[0, 0], [- np.sqrt(2. / 3), 0]]])
 singlet = np.array([[0, 1/np.sqrt(2)], [-1/np.sqrt(2), 0]])
@@ -15,7 +16,29 @@ for i in range(n):
 z = np.array([[1, 0, 0], [0, 0, 0], [0, 0, -1]])
 x = 1./np.sqrt(2) * np.array([[0, 1, 0], [1, 0, 1], [0, 1, 0]])
 y = 1j/np.sqrt(2) * np.array([[0, -1, 0], [1, 0, -1], [0, 1, 0]])
+
+
 psi = aklt.mps2tensor()
+wf = wf.wavefunction()
+wf.addwf(psi, n, 3)
+
+expectation_x0_wf = wf.SingleSpinMeasurement(0, x)
+expectation_x1_wf = wf.SingleSpinMeasurement(1, x)
+expectation_x2_wf = wf.SingleSpinMeasurement(2, x)
+expectation_x3_wf = wf.SingleSpinMeasurement(3, x)
+expectation_x4_wf = wf.SingleSpinMeasurement(4, x)
+expectation_x5_wf = wf.SingleSpinMeasurement(5, x)
+
+
+expectation_z0_wf = wf.SingleSpinMeasurement(0, z)
+expectation_z1_wf = wf.SingleSpinMeasurement(1, z)
+expectation_z2_wf = wf.SingleSpinMeasurement(2, z)
+expectation_z3_wf = wf.SingleSpinMeasurement(3, z)
+expectation_z4_wf = wf.SingleSpinMeasurement(4, z)
+expectation_z5_wf = wf.SingleSpinMeasurement(5, z)
+
+
+
 norm = aklt.NormalizationFactor()
 
 correlx = []
@@ -93,31 +116,5 @@ print('#########################################################################
 print('senity check is good')
 print('$$$ need to rewrite the contraction over the PBC $$$')
 print('\n')
-
-#psi = ms.mps2tensor(aklt.mps)
 '''
-a = np.array([[[0.        , 0.5       ],
-        [0.70710678, 0.        ],
-        [0.        , 0.5       ]],
-       [[0.5       , 0.        ],
-        [0.        , 0.70710678],
-        [0.5       , 0.        ]]])
-
-b = np.array([[[[0. , 0.5],
-         [0.5, 0. ]],
-        [[0.5, 0. ],
-         [0. , 0.5]]],
-       [[[0.5, 0. ],
-         [0. , 0.5]],
-        [[0. , 0.5],
-         [0.5, 0. ]]]])
-
-c = np.array([[[[ 0.  , -0.25],
-         [-0.25,  0.  ]],
-        [[ 0.25,  0.  ],
-         [ 0.  ,  0.25]]],
-       [[[ 0.25,  0.  ],
-         [ 0.  ,  0.25]],
-        [[ 0.  , -0.25],
-         [-0.25,  0.  ]]]])
 

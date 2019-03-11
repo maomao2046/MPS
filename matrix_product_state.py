@@ -238,6 +238,11 @@ class MPS:
                 finalidx.extend(rtenidx)
                 del finalidx[len(ltenidx) - 1: len(ltenidx) + 1]
                 tensor = np.einsum(tensor, ltenidx, self.mps[i], rtenidx, finalidx)
+            tensor_idx = range(len(tensor.shape))
+            final_idx = cp.copy(tensor_idx)
+            final_idx.remove(final_idx[0])
+            final_idx.remove(final_idx[-1])
+            tensor = np.einsum(tensor, tensor_idx, final_idx)
         return tensor
 
 
