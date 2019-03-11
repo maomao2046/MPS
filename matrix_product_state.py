@@ -216,7 +216,29 @@ class MPS:
                 k += 1
             self.reduced_mps[k] = self.mps[self.tensor_count - 1]
 
-
+    def mps2tensor(self):
+        if self.bc == 'OPEN':
+            """
+                Contracting (from left to right)the N spins mps into an N legs single tensor.
+            """
+            tensor = cp.deepcopy(self.mps[0])
+            for i in range(1, len(self.mps.keys())):
+                ltenidx = range(len(tensor.shape))
+                rtenidx = range(ltenidx[-1], ltenidx[-1] + len(self.mps[i].shape))
+                finalidx = cp.copy(ltenidx)
+                finalidx.extend(rtenidx)
+                del finalidx[len(ltenidx) - 1: len(ltenidx) + 1]
+                tensor = np.einsum(tensor, ltenidx, self.mps[i], rtenidx, finalidx)
+        if self.bc == 'PBC':
+            tensor = cp.deepcopy(self.mps[0])
+            for i in range(1, self.tensor_count):
+                ltenidx = range(len(tensor.shape))
+                rtenidx = range(ltenidx[-1], ltenidx[-1] + len(self.mps[i].shape))
+                finalidx = cp.copy(ltenidx)
+                finalidx.extend(rtenidx)
+                del finalidx[len(ltenidx) - 1: len(ltenidx) + 1]
+                tensor = np.einsum(tensor, ltenidx, self.mps[i], rtenidx, finalidx)
+        return tensor
 
 
 

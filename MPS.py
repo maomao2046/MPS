@@ -136,19 +136,7 @@ def canon_matrix_product_state(psi, k):
     return mps
 
 
-def mps2tensor(mps):
-    """
-        Contracting (from left to right)the N spins mps into an N legs single tensor.
-    """
-    tensor = cp.copy(mps[0])
-    for i in range(1, len(mps.keys())):
-        ltenidx = range(len(tensor.shape))
-        rtenidx = range(ltenidx[-1], ltenidx[-1] + len(mps[i].shape))
-        finalidx = cp.copy(ltenidx)
-        finalidx.extend(rtenidx)
-        del finalidx[len(ltenidx) - 1: len(ltenidx) + 1]
-        tensor = np.einsum(tensor, ltenidx, mps[i], rtenidx, finalidx)
-    return tensor
+
 
 
 

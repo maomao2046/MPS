@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 import MPS as ms
 
 # 1D AKLT
-n = 20
+n = 4
 spin1_tensor = np.array([[[1, 0], [0, 0]], [[0, 1/np.sqrt(2)], [1/np.sqrt(2), 0]], [[0, 0], [0, 1]]])
 #spin1_tensor = np.array([[[0, np.sqrt(2. / 3)], [0, 0]], [[- np.sqrt(1. / 3), 0], [0, np.sqrt(1. / 3)]], [[0, 0], [- np.sqrt(2. / 3), 0]]])
 singlet = np.array([[0, 1/np.sqrt(2)], [-1/np.sqrt(2), 0]])
@@ -13,9 +13,9 @@ for i in range(n):
     aklt.add_physical_tensor(spin1_tensor, 0)
     aklt.add_virtual_tensor(singlet)
 z = np.array([[1, 0, 0], [0, 0, 0], [0, 0, -1]])
-x = 1/np.sqrt(2) * np.array([[0, 1, 0], [1, 0, 1], [0, 1, 0]])
+x = 1./np.sqrt(2) * np.array([[0, 1, 0], [1, 0, 1], [0, 1, 0]])
 y = 1j/np.sqrt(2) * np.array([[0, -1, 0], [1, 0, -1], [0, 1, 0]])
-
+psi = aklt.mps2tensor()
 norm = aklt.NormalizationFactor()
 
 correlx = []
@@ -37,8 +37,8 @@ for i in range(n):
     mag_z.append(aklt.OneSpinMeasurement(z, i) / norm)
     mag_x.append(aklt.OneSpinMeasurement(x, i) / norm)
     mag_y.append(aklt.OneSpinMeasurement(y, i) / norm)
-    mag_zn.append(aklt.SingleSpinMeasure(z, i) / norm_n)
     mag_xn.append(aklt.SingleSpinMeasure(x, i) / norm_n)
+    mag_zn.append(aklt.SingleSpinMeasure(z, i) / norm_n)
     mag_yn.append(aklt.SingleSpinMeasure(y, i) / norm_n)
     correlx.append(aklt.TwoSpinsMeasurement(0, i, x, x) / norm - (mag_x[i] * mag_x[i]))
     correlz.append(aklt.TwoSpinsMeasurement(0, i, z, z) / norm - (mag_z[i] * mag_z[i]))
@@ -67,6 +67,7 @@ plt.legend(['<XX>', '<ZZ>', '<XX>n', '<ZZ>n'])
 plt.grid()
 plt.show()
 
+'''
 # senity check
 lspin = 3
 rspin = 5
@@ -94,3 +95,29 @@ print('$$$ need to rewrite the contraction over the PBC $$$')
 print('\n')
 
 #psi = ms.mps2tensor(aklt.mps)
+'''
+a = np.array([[[0.        , 0.5       ],
+        [0.70710678, 0.        ],
+        [0.        , 0.5       ]],
+       [[0.5       , 0.        ],
+        [0.        , 0.70710678],
+        [0.5       , 0.        ]]])
+
+b = np.array([[[[0. , 0.5],
+         [0.5, 0. ]],
+        [[0.5, 0. ],
+         [0. , 0.5]]],
+       [[[0.5, 0. ],
+         [0. , 0.5]],
+        [[0. , 0.5],
+         [0.5, 0. ]]]])
+
+c = np.array([[[[ 0.  , -0.25],
+         [-0.25,  0.  ]],
+        [[ 0.25,  0.  ],
+         [ 0.  ,  0.25]]],
+       [[[ 0.25,  0.  ],
+         [ 0.  ,  0.25]],
+        [[ 0.  , -0.25],
+         [-0.25,  0.  ]]]])
+
