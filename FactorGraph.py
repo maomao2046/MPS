@@ -99,8 +99,9 @@ class Graph:
     def DENFG_beliefs(self):
         self.DENFGbeliefs = {}
         for n in self.nodes:
-            self.DENFGbeliefs[n] = np.tensordot(self.node_belief[n], np.conj(self.node_belief[n]), 0)
-            self.DENFGbeliefs[n] /= np.trace(self.DENFGbeliefs[n])
+            belief_matrix = np.tensordot(self.node_belief[n], np.conj(self.node_belief[n]), 0)
+            belief_matrix /= np.trace(belief_matrix)
+            self.DENFGbeliefs[n] = np.linalg.eigvals(belief_matrix)
 
 
 

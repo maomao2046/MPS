@@ -12,7 +12,6 @@ class MPS:
         self.tensor_count = 0
         self.bc = boundary_condition
 
-
     def wavefunction2mps(self, psi, k):
         mps = ms.canon_matrix_product_state(psi, k)
         for item in mps.keys():
@@ -106,17 +105,29 @@ class MPS:
         psi[spin2_idx] = np.einsum('ijk,jn->ink', psi[spin2_idx], operator2)
         return self.braket(self.Dagger(), psi)
 
+    def Correlations(self, spin1, spin2, operator1, operator2):
+        spin1_idx = spin1 * 2
+        spin2_idx = spin2 * 2
+        if spin1_idx > self.tensor_count or spin2_idx > self.tensor_count:
+            raise ('There is no such spin')
+        mps = cp.deepcopy(self.mps)
+        mps[spin1_idx] = np.einsum(mps[spin1_idx], [0, 1, 2], operator1, [1, 3], [0, 3, 2])
+        mps[spin2_idx] = np.einsum(mps[spin2_idx], [0, 1, 2], operator2, [1, 3], [0, 3, 2])
+        return self.PeriodicContraction(0, np.eye(mps[0].shape[1]), mps)
+
     def NormalizationFactor(self):
         norm = self.braket(self.Dagger(), self.mps)
         return norm
 
-    def SingleSpinMeasure(self, spin, operator):
-        """
-            only for an open boundary condition mps
-        """
-        ltensor = self.LeftContraction(spin)
-        rtensor = self.RightContraction(spin)
-        expectation = self.FinalContraction(ltensor, rtensor, spin, operator)
+    def SingleSpinMeasure(self, operator, spin):
+        expectation = None
+        if self.bc == 'PBC':
+            spin = spin * 2
+            expectation = self.PeriodicContraction(spin, operator)
+        if self.bc == 'OPEN':
+            ltensor = self.LeftContraction(spin)
+            rtensor = self.RightContraction(spin)
+            expectation = self.FinalContraction(ltensor, rtensor, spin, operator)
         return expectation
 
     def LeftContraction(self, stop_spin):
@@ -172,6 +183,28 @@ class MPS:
             element = np.einsum('ijkl,kl->ij', midtensor, right_contraction)
             element = np.einsum('ij,ij->', left_contraction, element)
         return element
+
+    def PeriodicContraction(self, start_spin_idx, operator, psi=None):
+        expectation = None
+        if psi is None:
+            mps = cp.deepcopy(self.mps)
+        else:
+            mps = psi
+        mpsdag = cp.deepcopy(self.Dagger())
+        co = range(start_spin_idx, self.tensor_count)  # co is the "contraction order"
+        co.extend(range(start_spin_idx))
+        co.append(start_spin_idx)
+        temp = np.einsum(mps[co[0]], [0, 1, 2], operator, [1, 3], [0, 3, 2])  # operator and spin from mps
+        temp = np.einsum(temp, [0, 1, 2], mpsdag[co[0]], [3, 1, 4], [0, 3, 2, 4])  # spin from mpsdag
+        for i in range(1, len(co) - 1, 2):
+            temp = np.einsum(temp, [0, 1, 2, 3], mps[co[i]], [2, 4], [0, 1, 4, 3])  # virtual tensor from mps
+            temp = np.einsum(temp, [0, 1, 2, 3], mpsdag[co[i]], [3, 4], [0, 1, 2, 4])  # virtual tensor from mpsdag
+            if i == len(co) - 2:
+                expectation = np.einsum(temp, [0, 1, 2, 3], [])  # closing the ring
+                break
+            temp_two_spins = np.einsum(mps[co[i + 1]], [0, 1, 2], mpsdag[co[i + 1]], [3, 1, 4], [0, 3, 2, 4])  # two next spins
+            temp = np.einsum(temp, [0, 1, 2, 3], temp_two_spins, [2, 3, 4, 5], [0, 1, 4, 5])  # contracting the two spins with temp
+        return expectation
 
     def VirtualTensorContraction(self):
         self.reduced_mps = {}

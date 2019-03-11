@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 import MPS as ms
 
 # 1D AKLT
-n = 6
+n = 20
 spin1_tensor = np.array([[[1, 0], [0, 0]], [[0, 1/np.sqrt(2)], [1/np.sqrt(2), 0]], [[0, 0], [0, 1]]])
 #spin1_tensor = np.array([[[0, np.sqrt(2. / 3)], [0, 0]], [[- np.sqrt(1. / 3), 0], [0, np.sqrt(1. / 3)]], [[0, 0], [- np.sqrt(2. / 3), 0]]])
 singlet = np.array([[0, 1/np.sqrt(2)], [-1/np.sqrt(2), 0]])
@@ -20,10 +20,16 @@ norm = aklt.NormalizationFactor()
 
 correlx = []
 correlz = []
+correlxn = []
+correlzn = []
 mag_z = []
 mag_x = []
 mag_y = []
 
+mag_zn = []
+mag_xn = []
+mag_yn = []
+norm_n = aklt.SingleSpinMeasure(np.eye(3), 0)
 
 
 for i in range(n):
@@ -31,25 +37,33 @@ for i in range(n):
     mag_z.append(aklt.OneSpinMeasurement(z, i) / norm)
     mag_x.append(aklt.OneSpinMeasurement(x, i) / norm)
     mag_y.append(aklt.OneSpinMeasurement(y, i) / norm)
+    mag_zn.append(aklt.SingleSpinMeasure(z, i) / norm_n)
+    mag_xn.append(aklt.SingleSpinMeasure(x, i) / norm_n)
+    mag_yn.append(aklt.SingleSpinMeasure(y, i) / norm_n)
     correlx.append(aklt.TwoSpinsMeasurement(0, i, x, x) / norm - (mag_x[i] * mag_x[i]))
     correlz.append(aklt.TwoSpinsMeasurement(0, i, z, z) / norm - (mag_z[i] * mag_z[i]))
-
+    correlxn.append(aklt.Correlations(0, i, x, x) / norm_n - (mag_xn[i] * mag_xn[i]))
+    correlzn.append(aklt.Correlations(0, i, z, z) / norm_n - (mag_zn[i] * mag_zn[i]))
 
 plt.figure()
 plt.title('MAGNETIZATION')
 plt.plot(range(n), mag_z, 'o')
 plt.plot(range(n), mag_x, 'o')
-plt.plot(range(n), mag_y, '.')
-plt.legend(['mag_z', 'mag_x', 'mag_y'])
+plt.plot(range(n), np.real(mag_y), '.')
+plt.plot(range(n), mag_zn, 's')
+plt.plot(range(n), mag_xn, 'v')
+plt.plot(range(n), np.real(mag_yn), 'v')
+plt.legend(['mag_z', 'mag_x', 'mag_y', 'mag_zn', 'mag_xn', 'mag_yn'])
 plt.grid()
 plt.show()
 
 plt.figure()
 plt.title('CORRELATIONS')
 plt.plot(range(n), correlx, 'o')
-plt.plot(range(n), correlz)
-plt.legend(['<XX>', '<ZZ>'])
-
+plt.plot(range(n), correlz, 'o')
+plt.plot(range(n), correlxn, 'v')
+plt.plot(range(n), correlzn, 'v')
+plt.legend(['<XX>', '<ZZ>', '<XX>n', '<ZZ>n'])
 plt.grid()
 plt.show()
 
@@ -79,4 +93,4 @@ print('senity check is good')
 print('$$$ need to rewrite the contraction over the PBC $$$')
 print('\n')
 
-psi = ms.mps2tensor(aklt.mps)
+#psi = ms.mps2tensor(aklt.mps)
