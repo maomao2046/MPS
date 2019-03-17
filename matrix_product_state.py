@@ -191,6 +191,7 @@ class MPS:
         else:
             mps = psi
         mpsdag = cp.deepcopy(self.Dagger())
+        '''
         co = range(start_spin_idx, self.tensor_count)  # co is the "contraction order"
         co.extend(range(start_spin_idx))
         co.append(start_spin_idx)
@@ -204,6 +205,18 @@ class MPS:
                 break
             temp_two_spins = np.einsum(mps[co[i + 1]], [0, 1, 2], mpsdag[co[i + 1]], [3, 1, 4], [0, 3, 2, 4])  # two next spins
             temp = np.einsum(temp, [0, 1, 2, 3], temp_two_spins, [2, 3, 4, 5], [0, 1, 4, 5])  # contracting the two spins with temp
+        '''
+        mps[start_spin_idx] = np.einsum(mps[start_spin_idx], [0, 1, 2], operator, [1, 3], [0, 3, 2])  # operator and spin from mps
+        temp = np.einsum(mps[0], [0, 1, 2], mpsdag[0], [3, 1, 4], [0, 3, 2, 4])  # operator and spin from mps
+        for i in range(1, self.tensor_count, 2):
+            temp = np.einsum(temp, [0, 1, 2, 3], mps[i], [2, 4], [0, 1, 4, 3])  # virtual tensor from mps
+            temp = np.einsum(temp, [0, 1, 2, 3], mpsdag[i], [3, 4], [0, 1, 2, 4])  # virtual tensor from mpsdag
+            if i == self.tensor_count - 1:
+                expectation = np.einsum(temp, [0, 1, 2, 3], [])  # closing the ring
+                break
+            temp_two_spins = np.einsum(mps[i + 1], [0, 1, 2], mpsdag[i + 1], [3, 1, 4], [0, 3, 2, 4])  # two next spins
+            temp = np.einsum(temp, [0, 1, 2, 3], temp_two_spins, [2, 3, 4, 5], [0, 1, 4, 5])  # contracting the two spins with temp
+
         return expectation
 
     def VirtualTensorContraction(self):
