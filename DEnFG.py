@@ -92,7 +92,11 @@ class Graph:
                     temp_message = np.ones((alphabet, alphabet), dtype=complex)
                     for item in neighbor_factors:
                         temp_message *= factor2node[item][n]
-                    node2factor[n][f] /= np.trace(node2factor[n][f])
+                    if not neighbor_factors:
+                        continue
+                    else:
+                        node2factor[n][f] = cp.copy(temp_message)
+                        node2factor[n][f] /= np.trace(node2factor[n][f])
 
             for f in factors.keys():
                 for n in factors[f][0].keys():
@@ -148,26 +152,13 @@ class Graph:
         for n in self.nodes_order:
             shape.append(self.nodes[n][0])
         master_tensor = np.ones(shape, dtype=np.complex128)
+        super_master_tensor = self.make_super_tensor(master_tensor)
         for f in self.factors:
             neighbors = self.factors[f][0].keys()
             idx = []
             for n in self.nodes_order:
                 if n in neighbors:
                     idx.append(self.node_indices[n])
-            master_tensor *= self.tensor_broadcasting(self.factors[f][1], idx, master_tensor)
-        return np.sum(master_tensor)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+            super_master_tensor *= self.make_super_tensor(self.tensor_broadcasting(self.factors[f][1], idx, master_tensor))
+        return np.sum(super_master_tensor)
 
