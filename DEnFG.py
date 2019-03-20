@@ -13,11 +13,14 @@ class Graph:
         self.nodes_order = []
         self.node_indices = {}
         self.nodes = {}
+        self.node_belief = None
+        self.factor_belief = None
         self.factors_count = 0
         self.messages_n2f = None
         self.messages_f2n = None
         self.node_partition = None
         self.factor_partition = None
+        self.all_messages = None
 
     def add_node(self, alphabet_size, name):
         self.nodes[name] = [alphabet_size, set()]
@@ -48,13 +51,13 @@ class Graph:
         return np.reshape(tensor, new_shape)
 
     def pd_mat_init(self, alphabet):
-        eigenval = np.eye(alphabet)
-        for i in range(alphabet):
-            eigenval[i, i] = np.random.rand()
-        eigenval /= np.trace(eigenval)
-        unitary = unitary_group.rvs(alphabet)
-        pd = np.matmul(np.transpose(np.conj(unitary)), np.matmul(eigenval, unitary))
-        return pd
+        eigenval = np.eye(alphabet) / alphabet
+        #for i in range(alphabet):
+        #    eigenval[i, i] = np.random.rand()
+        #eigenval /= np.trace(eigenval)
+        #unitary = unitary_group.rvs(alphabet)
+        #pd = np.matmul(np.transpose(np.conj(unitary)), np.matmul(eigenval, unitary))
+        return eigenval
 
     def make_super_tensor(self, tensor):
         tensor_idx1 = np.array(range(len(tensor.shape)))
@@ -66,7 +69,7 @@ class Graph:
         super_tensor = np.einsum(tensor, tensor_idx1, np.conj(tensor), tensor_idx2, super_tensor_idx_shape)
         return super_tensor
 
-    def sum_product(self, t_max, epsilon=None):
+    def sum_product(self, t_max, epsilon):
         factors = self.factors
         nodes = self.nodes
         node2factor = {}
@@ -82,8 +85,11 @@ class Graph:
             for n in factors[f][0]:
                 alphabet = nodes[n][0]
                 factor2node[f][n] = self.pd_mat_init(alphabet)
+        self.init_save_messages()
 
         for t in range(t_max):
+            old_messages_f2n = factor2node
+            old_messages_n2f = node2factor
             for n in nodes.keys():
                 alphabet = nodes[n][0]
                 for f in nodes[n][1]:
@@ -109,19 +115,37 @@ class Graph:
                         super_tensor *= self.broadcasting(node2factor[item][f], factors[f][0][item], super_tensor)
                     factor2node[f][n] = np.einsum(super_tensor, range(len(super_tensor.shape)), message_idx)
                     factor2node[f][n] /= np.trace(factor2node[f][n])
+            self.save_messages(node2factor, factor2node)
         self.messages_n2f = node2factor
         self.messages_f2n = factor2node
+
+    def check_converge(self, n2f_old, f2n_old, n2f_new, f2n_new, epsilon):
+        diff = 0
+        for n in n2f_old:
+            for f in n2f_old[n]:
+                diff += np.sum(np.abs(n2f_old[n][f] - n2f_new[n][f]))
+        for f in f2n_old:
+            for n in f2n_old[f]:
+                diff += np.sum(np.abs(f2n_old[f][n] - f2n_new[f][n]))
+        if diff < epsilon:
+            return 1
+        else:
+            return 0
 
     def calc_node_partition(self):
         nodes = self.nodes
         messages = self.messages_f2n
+        #messages = self.messages_n2f
         self.node_partition = {}
         keys = nodes.keys()
         for n in keys:
+            d = len(nodes[n][1])
             alphabet = nodes[n][0]
             temp = np.ones((alphabet, alphabet), dtype=complex)
             for f in nodes[n][1]:
                 temp *= messages[f][n]
+                #temp *= messages[n][f]
+            temp = temp ** (d - 1)
             self.node_partition[n] = np.sum(temp)
 
     def calc_factor_partition(self):
@@ -142,23 +166,78 @@ class Graph:
             bethe *= self.factor_partition[f]
         for n in self.node_partition:
             if np.abs(self.node_partition[n]) < 1e-10:
-                raise IndexError('The partition of node' + str(n) + 'is 0')
+                raise IndexError('The partition of node' + n + 'is 0')
             bethe *= self.node_partition[n]
         return bethe
 
     def calc_partition(self):
-        node_count = self.node_count
         shape = []
         for n in self.nodes_order:
             shape.append(self.nodes[n][0])
         master_tensor = np.ones(shape, dtype=np.complex128)
         super_master_tensor = self.make_super_tensor(master_tensor)
         for f in self.factors:
-            neighbors = self.factors[f][0].keys()
-            idx = []
+            neighbors = self.factors[f][0]
+            idx = np.zeros(len(self.factors[f][1].shape), dtype=int)
             for n in self.nodes_order:
                 if n in neighbors:
-                    idx.append(self.node_indices[n])
+                    idx[neighbors[n]] = self.node_indices[n]
+            idx = np.ndarray.tolist(idx)
             super_master_tensor *= self.make_super_tensor(self.tensor_broadcasting(self.factors[f][1], idx, master_tensor))
         return np.sum(super_master_tensor)
+
+    def save_messages(self, n2f, f2n):
+            for n in self.nodes:
+                for f in self.nodes[n][1]:
+                    self.all_messages[n][f].append(n2f[n][f])
+            for f in self.factors:
+                for n in self.factors[f][0]:
+                    self.all_messages[f][n].append(f2n[f][n])
+
+    def init_save_messages(self):
+        self.all_messages = {}
+        for n in self.nodes:
+            self.all_messages[n] = {}
+            for f in self.nodes[n][1]:
+                self.all_messages[n][f] = []
+        for f in self.factors:
+            self.all_messages[f] = {}
+            for n in self.factors[f][0]:
+                self.all_messages[f][n] = []
+
+    def calc_node_belief(self):
+        self.node_belief = {}
+        nodes = self.nodes
+        messages = self.messages_f2n
+        keys = nodes.keys()
+        for n in keys:
+            alphabet = nodes[n][0]
+            temp = np.ones((alphabet, alphabet), dtype=complex)
+            for f in nodes[n][1]:
+                temp *= messages[f][n]
+            self.node_belief[n] = temp
+
+    def calc_factor_belief(self):
+        self.factor_belief = {}
+        factors = self.factors
+        messages = self.messages_n2f
+        keys = factors.keys()
+        for f in keys:
+            super_tensor = self.make_super_tensor(cp.deepcopy(factors[f][1]))
+            neighbors = factors[f][0]
+            for n in neighbors.keys():
+                super_tensor *= self.broadcasting(messages[n][f], neighbors[n], super_tensor)
+            self.factor_belief[f] = super_tensor
+
+    def bethe_partition2(self):
+        shape = []
+        for n in self.nodes_order:
+            shape.append(self.nodes[n][0])
+        master_tensor = np.ones(shape, dtype=np.complex128)
+        super_master_tensor = self.make_super_tensor(master_tensor)
+        for f in self.factor_belief:
+            neighbors = self.factors[f][0]
+            idx = np.zeros(len(self.factors[f][1].shape), dtype=int)
+            
+
 

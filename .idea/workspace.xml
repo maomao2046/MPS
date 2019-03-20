@@ -21,7 +21,7 @@
     <SUITE FILE_PATH="coverage/MPS$Single_MPS.coverage" NAME="Single_MPS Coverage Results" MODIFIED="1550948481003" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/MPS$TN2FG.coverage" NAME="TN2FG Coverage Results" MODIFIED="1552249758238" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/MPS$main.coverage" NAME="main Coverage Results" MODIFIED="1544295887834" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/MPS$check_FG.coverage" NAME="check_FG Coverage Results" MODIFIED="1552902575800" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/MPS$check_FG.coverage" NAME="check_FG Coverage Results" MODIFIED="1553092990439" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
   <component name="DatabaseView">
     <option name="SHOW_INTERMEDIATE" value="true" />
@@ -39,23 +39,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="FactorGraph.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/FactorGraph.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-754">
-              <caret line="8" column="45" lean-forward="true" selection-start-line="8" selection-start-column="45" selection-end-line="8" selection-end-column="45" />
-              <folding>
-                <element signature="e#0#18#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="DEnFG.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="DEnFG.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/DEnFG.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2415">
-              <caret line="161" column="40" selection-start-line="161" selection-start-column="40" selection-end-line="161" selection-end-column="40" />
+            <state relative-caret-position="289">
+              <caret line="240" column="12" selection-start-line="240" selection-start-column="12" selection-end-line="240" selection-end-column="12" />
               <folding>
                 <element signature="e#0#18#0" expanded="true" />
               </folding>
@@ -63,25 +51,13 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="check_FG.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="check_FG.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/check_FG.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="195">
-              <caret line="13" column="1" selection-start-line="13" selection-start-column="1" selection-end-line="13" selection-end-column="1" />
+            <state relative-caret-position="150">
+              <caret line="57" column="24" selection-start-line="57" selection-start-column="24" selection-end-line="57" selection-end-column="24" />
               <folding>
                 <element signature="e#0#37#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="AKLT_state.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/AKLT_state.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="240">
-              <caret line="16" column="63" lean-forward="true" selection-start-line="16" selection-start-column="63" selection-end-line="16" selection-end-column="63" />
-              <folding>
-                <element signature="e#0#18#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -124,8 +100,8 @@
         <option value="$PROJECT_DIR$/1D_aklt_mps2DENFG.py" />
         <option value="$PROJECT_DIR$/matrix_product_state.py" />
         <option value="$PROJECT_DIR$/AKLT_state.py" />
-        <option value="$PROJECT_DIR$/DEnFG.py" />
         <option value="$PROJECT_DIR$/check_FG.py" />
+        <option value="$PROJECT_DIR$/DEnFG.py" />
       </list>
     </option>
   </component>
@@ -336,13 +312,14 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1440" height="797" extended-state="0" />
+    <editor active="true" />
     <layout>
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Event Log" order="12" side_tool="true" />
       <window_info anchor="bottom" id="Database Changes" order="9" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="8" />
       <window_info anchor="bottom" id="Python Console" order="10" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.27857143" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.27857143" />
       <window_info anchor="bottom" id="Terminal" order="11" />
       <window_info content_ui="combo" id="Project" order="0" weight="0.26752505" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
@@ -350,7 +327,7 @@
       <window_info anchor="right" x="238" y="180" width="963" height="482" id="SciView" order="3" weight="0.56008583" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.43857142" />
+      <window_info active="true" anchor="bottom" id="Debug" order="3" visible="true" weight="0.43857142" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
@@ -379,6 +356,11 @@
           <line>96</line>
           <option name="timeStamp" value="62" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/DEnFG.py</url>
+          <line>237</line>
+          <option name="timeStamp" value="81" />
+        </line-breakpoint>
       </breakpoints>
       <default-breakpoints>
         <breakpoint type="python-exception">
@@ -387,20 +369,10 @@
           </properties>
         </breakpoint>
       </default-breakpoints>
-      <option name="time" value="75" />
+      <option name="time" value="82" />
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/matrix_product_state.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1755">
-          <caret line="118" column="3" selection-start-line="118" selection-start-column="3" selection-end-line="118" selection-end-column="3" />
-          <folding>
-            <element signature="e#0#18#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/MPS.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2055">
@@ -730,22 +702,25 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/DEnFG.py">
+    <entry file="file://$USER_HOME$/anaconda2/lib/python2.7/site-packages/numpy/__init__.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/check_FG.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2415">
-          <caret line="161" column="40" selection-start-line="161" selection-start-column="40" selection-end-line="161" selection-end-column="40" />
+        <state relative-caret-position="150">
+          <caret line="57" column="24" selection-start-line="57" selection-start-column="24" selection-end-line="57" selection-end-column="24" />
           <folding>
-            <element signature="e#0#18#0" expanded="true" />
+            <element signature="e#0#37#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/check_FG.py">
+    <entry file="file://$PROJECT_DIR$/DEnFG.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="195">
-          <caret line="13" column="1" selection-start-line="13" selection-start-column="1" selection-end-line="13" selection-end-column="1" />
+        <state relative-caret-position="289">
+          <caret line="240" column="12" selection-start-line="240" selection-start-column="12" selection-end-line="240" selection-end-column="12" />
           <folding>
-            <element signature="e#0#37#0" expanded="true" />
+            <element signature="e#0#18#0" expanded="true" />
           </folding>
         </state>
       </provider>
