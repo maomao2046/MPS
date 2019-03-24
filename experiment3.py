@@ -4,7 +4,7 @@ import wavefunction as wf
 import matrix_product_state as mps
 import DEnFG as denfg
 
-k = 2
+k = 3
 n = 6
 spins = ['n0', 'n1', 'n2', 'n3', 'n4', 'n5']
 alphabet = 2
@@ -71,6 +71,7 @@ graph.add_factor({'n14': 0, 'n15': 1}, model.mps[9].astype('complex128'))
 graph.add_factor({'n15': 0, 'n5': 1}, model.mps[10].astype('complex128'))
 
 for t in range(t_max):
+    print(t)
     graph.sum_product(t, error)
     graph.calc_node_belief()
     for i in range(n):
