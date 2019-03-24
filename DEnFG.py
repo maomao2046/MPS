@@ -234,10 +234,38 @@ class Graph:
         for n in self.nodes_order:
             shape.append(self.nodes[n][0])
         master_tensor = np.ones(shape, dtype=np.complex128)
-        super_master_tensor = self.make_super_tensor(master_tensor)
+        # not true
+        '''
         for f in self.factor_belief:
-            neighbors = self.factors[f][0]
-            idx = np.zeros(len(self.factors[f][1].shape), dtype=int)
-            
+            print(np.sum(self.factor_belief[f]))
+            z_bethe *= np.sum(self.factor_belief[f])
+        for n in self.node_belief:
+            print(np.sum(self.node_belief[n] ** (len(self.nodes[n][1]) - 1)))
+            z_bethe /= np.sum(self.node_belief[n] ** (len(self.nodes[n][1]) - 1))
+            '''
+        E_b = self.calc_bethe_energy()
+        H_b = self.calc_bethe_entropy()
+        F_b = E_b - H_b
+        z_bethe = -np.log(F_b)
+        return z_bethe
+
+    def calc_bethe_energy(self):
+        E_b = 0
+        for f in self.factor_belief:
+            E_b += np.sum(self.factor_belief[f] * np.log(self.make_super_tensor(self.factors[f][1])))
+        return -E_b
+    def calc_bethe_entropy(self):
+        H_b = 0
+        for f in self.factor_belief:
+            H_b -= np.sum(self.factor_belief[f] * np.log(self.factor_belief[f]))
+        for n in self.node_belief:
+            H_b += (len(self.nodes[n][1]) - 1) * np.sum(self.node_belief[n] * np.log(self.node_belief[n]))
+        return  H_b
+
+
+
+
+
+
 
 

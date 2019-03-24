@@ -11,9 +11,9 @@ v_z = []
 for j in range(10):
     g = denfg.Graph()
     alpha0 = 2
-    alpha1 = 2
-    alpha2 = 2
-    alpha3 = 2
+    alpha1 = 3
+    alpha2 = 4
+    alpha3 = 5
 
     g.add_node(alpha0, 'n0')
     g.add_node(alpha1, 'n1')
@@ -31,8 +31,8 @@ for j in range(10):
     g.add_factor({'n1': 0, 'n2': 1}, np.complex128(np.ones((alpha1, alpha2))))
     g.add_factor({'n2': 0, 'n3': 1}, np.complex128(np.ones((alpha2, alpha3))))
     g.add_factor({'n3': 0, 'n0': 1}, np.complex128(np.ones((alpha3, alpha0))))
-    g.add_factor({'n0': 0, 'n2': 1}, np.complex128(np.ones((alpha0, alpha2))))
-    #g.add_factor({'n1': 0, 'n3': 1}, np.complex128(np.ones((alpha0, alpha2))))
+    #g.add_factor({'n0': 0, 'n2': 1}, np.complex128(np.ones((alpha0, alpha2))))
+    #g.add_factor({'n1': 0, 'n3': 1}, np.complex128(np.ones((alpha1, alpha3))))
 
 
 
@@ -55,7 +55,6 @@ for j in range(10):
     v_bethe.append(bethe)
     g.calc_node_belief()
     g.calc_factor_belief()
-    g.bethe_partition2()
     '''
     for n in g.nodes:
         for f in g.nodes[n][1]:

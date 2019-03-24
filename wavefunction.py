@@ -41,3 +41,8 @@ class wavefunction:
             if i > spin_num:
                 supop = np.kron(supop, np.eye(self.spin_dim))
         return supop
+
+    def random_wavefunction(self, spin_count, spin_dim):
+        shape = tuple(np.ones(spin_count, dtype=int) * spin_dim)
+        tensor = np.random.rand(*shape) + np.random.rand(*shape) * 1j
+        self.addwf(tensor, spin_count, spin_dim)      
