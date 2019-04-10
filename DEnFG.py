@@ -3,6 +3,7 @@ import networkx as nx
 import matplotlib.pyplot as plt
 import copy as cp
 from scipy.stats import unitary_group
+import time
 
 
 class Graph:

@@ -8,28 +8,31 @@ import matrix_product_state as mps
 import DEnFG as denfg
 
 
-k = 10
+k = 4
 n = 6
 spins = ['n0', 'n1', 'n2', 'n3', 'n4', 'n5']
 alphabet = 2
 t_max = 20
 error = 1e-6
 '''
-psi = np.array([[[[[[0., 1.], [0., 1.j]], [[0., 0.j], [0.j, 0.]]], [[[0., -1.j], [0., 0.j]], [[0.j, 0.], [0., 0.j]]]],
+psi = np.array([[[[[[0., 0.], [0., 1.j]], [[0., 0.j], [0.j, 0.]]],
+                [[[0., 0.j], [0., 0.j]], [[0.j, 0.], [0., 0.j]]]],
                 [[[[1., 0.], [0., 0.j]], [[0., 0.j], [-1.j, 0.]]],
-                 [[[0., 1.j], [0., 0.j]], [[0.j, 0.], [0., 0.j]]]]], [[[[[0.j, 0.], [1.j, 0.j]], [[-1., 0.j], [-1.j, 0.]]], [[[0., 0.j], [0., 0.j]], [[0.j, 0.], [0., 0.j]]]],
+                 [[[0., 1.j], [0., 0.j]], [[0.j, 0.], [0., 0.j]]]]],
+                [[[[[0.j, 0.], [0.j, 0.j]], [[-1., 0.j], [-1.j, 0.]]],
+                [[[0., 0.j], [0., 0.j]], [[0.j, 0.], [0., 0.j]]]],
                 [[[[1., 0.], [0., 0.j]], [[0., 0.j], [0.j, 0.]]],
                  [[[0., 1.j], [0., -1.j]], [[0.j, 0.], [0., 0.j]]]]]])
-
-psi = np.array([[[[[[1., 0.], [0., 0.j]], [[0., 0.j], [0.j, 0.]]], [[[0., 0.j], [0., 0.j]], [[0.j, 0.], [0., 0.j]]]],
-                [[[[0.j, 0.], [0., 0.j]], [[0., 0.j], [0.j, 0.]]], [[[0., 0.j], [0., 0.j]], [[0.j, 0.], [0., 0.j]]]]],
-                [[[[[1.j, 0.], [0., 0.j]], [[0., 0.j], [0.j, 0.]]], [[[0., 0.j], [0., 0.j]], [[0.j, 0.], [0., 0.j]]]],
-                 [[[[0., 0.], [0., 0.j]], [[0., 0.j], [0.j, 0.]]], [[[0., 0.j], [0., 0.j]], [[0.j, 0.], [0., 0.]]]]]])
 '''
+psi = np.array([[[[[[-0.5, 0.], [0., 0.j]], [[0., 0.j], [0.j, 0.]]], [[[0., 0.j], [0., 0.j]], [[0.j, 0.], [0., 0.j]]]],
+                [[[[1.j, 0.], [0., 0.j]], [[0., 0.j], [0.j, 0.]]], [[[0., 0.j], [0., 0.j]], [[0.j, 0.], [0., 0.j]]]]],
+                [[[[[0.2j, 0.], [0., 0.j]], [[0., 0.j], [0.j, 0.]]], [[[0., 0.j], [-0.5, 0.j]], [[0.j, 0.], [0., 0.j]]]],
+                 [[[[1., 0.], [0., 0.j]], [[0., 0.j], [0.j, 0.]]], [[[0., 0.j], [0., 0.j]], [[0.j, 0.], [0., 0.]]]]]])
+
 
 wf = wf.wavefunction()
-#wf.addwf(psi, n, alphabet)
-wf.random_wavefunction(n, alphabet)
+wf.addwf(psi, n, alphabet)
+#wf.random_wavefunction(n, alphabet)
 
 z = np.array([[1, 0], [0, -1]])
 
@@ -85,6 +88,7 @@ for i in range(1, k):
 
 
 for i in range(n):
+    '''
     plt.figure()
     plt.subplot(211)
     plt.title('$<\psi|\sigma_z(' + spins[i] + ')|\psi>$ MPS vs DE-NFG \n expectation vs MPS bond dim')
@@ -95,19 +99,23 @@ for i in range(n):
     plt.ylabel('$<\sigma_z>$')
     plt.xlabel('D - bond dimension')
     plt.legend(['DE-NFG', 'true value', 'MPS'])
-
-    plt.subplot(212)
-    plt.title('expectation vs DE-NFG BP iterations')
+    '''
+    #plt.subplot(212)
+    plt.figure()
+    plt.title('$<\psi|\sigma_{z_{' + str(i + 1) + '}}|\psi>$')
     plt.plot(range(t_max), expectation_graph[i, k - 1, :], 'o')
-    plt.plot(range(t_max), np.ones(t_max) * expectation_wf[i][0])
-    plt.plot(range(t_max), expectation_mps[i, k - 1, :])
+    #plt.plot(range(t_max), np.ones(t_max) * expectation_wf[i][0], linewidth=2)
+    plt.plot(range(t_max), expectation_mps[i, k - 1, :], linewidth=1)
     plt.ylim([-1.1, 1.1])
-    plt.ylabel('$<\sigma_z>$')
-    plt.xlabel('# BP iterations')
-    plt.legend(['DE-NFG', 'true value', 'MPS'])
+    plt.xticks(range(t_max))
+    plt.ylabel('$m_z$')
+    plt.xlabel('# of BP iterations')
+    #plt.legend(['$<\sigma_z>_{DE-NFG}$', '$<\sigma_z>_{exact}$', '$<\sigma_z>_{MPS}$'])
+    plt.legend(['$<\sigma_z>_{DE-NFG}$', '$<\sigma_z>_{MPS}$'])
+    plt.grid()
     plt.show()
 
-
+'''
 for i in range(n):
     nrows, ncols = np.real(expectation_graph[0, :, :]).shape
     kk = np.linspace(0, k, ncols)
@@ -122,4 +130,5 @@ for i in range(n):
     ax.set_zlabel('$<\sigma_z>$')
     ax.set_zlim([-1.1, 1.1])
     plt.show()
+'''
 

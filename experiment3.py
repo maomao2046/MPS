@@ -4,7 +4,7 @@ import wavefunction as wf
 import matrix_product_state as mps
 import DEnFG as denfg
 
-k = 3
+k = 4
 n = 6
 spins = ['n0', 'n1', 'n2', 'n3', 'n4', 'n5']
 alphabet = 2
