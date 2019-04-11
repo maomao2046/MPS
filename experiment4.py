@@ -47,7 +47,7 @@ expectation_graph = np.zeros((n, k, t_max), dtype=complex)
 
 for i in range(1, k):
     model = mps.MPS('OPEN')
-    model.wavefunction2mps(wf.tensor, i)
+    model.wavefunction2mps2(wf.tensor, i)
     for t in range(t_max):
         graph = denfg.Graph()
         graph.add_node(alphabet, 'n0')

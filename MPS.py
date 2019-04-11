@@ -160,30 +160,22 @@ def new_canon_matrix_product_state(psi, k):
             u[i], s_diag[i], v[i] = keep_k(u0, s0, v0, k)
             s[i] = np.zeros((s_diag[i].shape[0], s_diag[i].shape[0]))
             np.fill_diagonal(s[i], s0)
-            v[i] = np.matmul(s[i], v0)
+            v[i] = np.matmul(s[i], v[i])
 
         else:
-            new_shape = (d ** (i + 1), d ** (n - (i + 1)))
+            new_shape = (v[i - 1].shape[0] * d, v[i - 1].shape[1] / d)
             u0, s0, v0 = np.linalg.svd(np.reshape(v[i - 1], new_shape), full_matrices=True)
             s0 = np.trim_zeros(s0) # could be a problen -  triming zeros but kipping very small values
             u[i], s_diag[i], v[i] = keep_k(u0, s0, v0, k)
             s[i] = np.zeros((s_diag[i].shape[0], s_diag[i].shape[0]))
             np.fill_diagonal(s[i], s0)
             s_inv_diag = s_diag[i] ** (-1)
-
-            u[i] = np.reshape(u0, (d ** i, d ** (i + 2)))
+            u[i] = np.reshape(u[i], (u[i].shape[0] / d, u[i].shape[1] * d))
             s_inv = np.zeros((s[i - 1].shape[1], s[i - 1].shape[0]), dtype=float)
             np.fill_diagonal(s_inv, s_inv_diag)
-
-            # Truncation of s
-            if len(s_diag[i - 1]) > k:
-                s_diag[i - 1][k:] = 0
-                s[i - 1] = np.zeros(s[i - 1].shape, dtype=float)
-                np.fill_diagonal(s[i - 1], s_diag[i - 1])
-
             u[i] = np.matmul(s_inv, u[i])
-            u[i] = np.reshape(u[i], (s_inv.shape[0], d, d ** (i + 1)))
-            v[i] = np.matmul(s[i], v0)
+            u[i] = np.reshape(u[i], (s_inv.shape[0], d, u[i].shape[1] / d))
+            v[i] = np.matmul(s[i], v[i])
     u[i + 1] = v0
     j = 0
     for i in range(0, 2 * n - 2, 2):
@@ -191,20 +183,21 @@ def new_canon_matrix_product_state(psi, k):
         mps[i + 1] = s[j]
         j += 1
     mps[2 * n - 2] = u[n - 1]
-
     return mps
 
 
 def keep_k(u, s, v, k):
-    if len(s) >= k:
+    l = len(s)
+    if l <= k:
+        u = u[:, 0:l]
+        s = s[0:l]
+        v = v[0:l, :]
         return u, s, v
     else:
-        u = u[:, 0:(k -1)]
-        s = s[0:(k - 1)]
-        v = v[0:(k - 1), :]
+        u = u[:, 0:k]
+        s = s[0:k]
+        v = v[0:k, :]
         return u, s, v
-
-
 
 
 

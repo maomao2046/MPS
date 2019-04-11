@@ -18,6 +18,12 @@ class MPS:
             self.mps[item] = mps[item]
             self.tensor_count += 1
 
+    def wavefunction2mps2(self, psi, k):
+        mps = ms.new_canon_matrix_product_state(psi, k)
+        for item in mps.keys():
+            self.mps[item] = mps[item]
+            self.tensor_count += 1
+
     def add_physical_tensor(self, tensor, physical_leg):
         if self.bc == 'PBC':
             if physical_leg == 0:
