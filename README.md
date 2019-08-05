@@ -1,1 +1,1 @@
-# MPS
+# Matrix Product State experiment 
