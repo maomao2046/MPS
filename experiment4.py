@@ -17,13 +17,13 @@ t_max = 20
 error = 1e-6
 
 psi = np.array([[[[[[0., 0.], [0., 1.j]], [[0., 0.j], [0.j, 0.]]],
-                [[[0., 0.j], [0., 0.j]], [[0.j, 0.], [0., 0.j]]]],
+                [[[0., 0.j], [1., 0.j]], [[0.j, 0.], [0., 0.j]]]],
                 [[[[1., 0.], [0., 0.j]], [[0., 0.j], [-1.j, 0.]]],
-                 [[[0., 1.j], [0., 0.j]], [[0.j, 0.], [0., 0.j]]]]],
+                 [[[0., 1.j], [0., 2.j]], [[0.j, 0.], [0., 0.j]]]]],
                 [[[[[0.j, 0.], [0.j, 0.j]], [[-1., 0.j], [-1.j, 0.]]],
-                [[[0., 0.j], [0., 0.j]], [[0.j, 0.], [0., 0.j]]]],
+                [[[0., 0.j], [0., 0.j]], [[0.j, 0.], [3., 0.j]]]],
                 [[[[1., 0.], [0., 0.j]], [[0., 0.j], [0.j, 0.]]],
-                 [[[0., 1.j], [0., -1.j]], [[0.j, 0.], [0., 0.j]]]]]])
+                 [[[0., 1.j], [0., -1.j]], [[0.j, 0.], [0., 0.6j]]]]]])
 '''
 psi = np.array([[[[[[-0.5, 0.], [0., 0.j]], [[0., 0.j], [0.j, 0.]]], [[[0., 0.j], [0., 0.j]], [[0.j, 0.], [0., 0.j]]]],
                 [[[[1.j, 0.], [0., 0.j]], [[0., 0.j], [0.j, 0.]]], [[[0., 0.j], [0., 0.j]], [[0.j, 0.], [0., 0.j]]]]],
@@ -36,6 +36,7 @@ wf.addwf(psi, n, alphabet)
 #wf.random_wavefunction(n, alphabet)
 
 z = np.array([[1, 0], [0, -1]])
+#z = np.array([[0, 1], [1, 0]])
 
 
 expectation_wf = []
@@ -105,14 +106,14 @@ for i in range(n):
     plt.figure()
     plt.title('$<\psi|\sigma_{z_{' + str(i + 1) + '}}|\psi>$')
     plt.plot(range(t_max), expectation_graph[i, k - 1, :], 'o')
-    #plt.plot(range(t_max), np.ones(t_max) * expectation_wf[i][0], linewidth=2)
+    plt.plot(range(t_max), np.ones(t_max) * expectation_wf[i][0], linewidth=2)
     plt.plot(range(t_max), expectation_mps[i, k - 1, :], linewidth=1)
     plt.ylim([-1.1, 1.1])
     plt.xticks(range(t_max))
     plt.ylabel('$m_z$')
     plt.xlabel('# of BP iterations')
-    #plt.legend(['$<\sigma_z>_{DE-NFG}$', '$<\sigma_z>_{exact}$', '$<\sigma_z>_{MPS}$'])
-    plt.legend(['$<\sigma_z>_{DE-NFG}$', '$<\sigma_z>_{MPS}$'])
+    plt.legend(['$<\sigma_z>_{DE-NFG}$', '$<\sigma_z>_{exact}$', '$<\sigma_z>_{MPS}$'])
+    #plt.legend(['$<\sigma_z>_{DE-NFG}$', '$<\sigma_z>_{MPS}$'])
     plt.grid()
     plt.show()
 

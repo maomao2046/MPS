@@ -62,7 +62,6 @@ class Graph:
                 alphabet = nodes[n][0]
                 factor2node[f][n] = np.ones(alphabet, dtype=float) / alphabet
 
-
         for t in range(t_max):
             for n in nodes.keys():
                 for f in nodes[n][1]:
@@ -89,13 +88,22 @@ class Graph:
         self.messages_n2f = node2factor
         self.messages_f2n = factor2node
 
-    def beliefs(self):
+    def node_beliefs(self):
         self.node_belief = {}
         for n in self.nodes:
             self.node_belief[n] = np.ones(self.nodes[n][0], dtype=float)
             for f in self.nodes[n][1]:
                 self.node_belief[n] *= self.messages_f2n[f][n]
             self.node_belief[n] /= np.sum(self.node_belief[n])
+
+    def factor_beliefs(self):
+        self.factor_belief = {}
+        for f in self.factors:
+            self.factor_belief[f] = np.ones(self.factors[f][1].shape)
+            for n in self.factors[f][0]:
+                self.factor_belief[f] *= self.broadcasting(self.messages_n2f[n][f], self.factors[f][0][n], self.factor_belief[f])
+                self.factor_belief[f] /= np.sum(self.messages_n2f[n][f])
+            self.factor_belief[f] *= self.factors[f][1]
 
 
 
