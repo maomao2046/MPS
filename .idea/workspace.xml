@@ -1,16 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="42d3998f-3606-4d4b-96d2-6087d96e4033" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/DEnFG_from_2DTN.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/MPS.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/MPS.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/1D_FG_PBC.py" beforeDir="false" afterPath="$PROJECT_DIR$/1D_FG_PBC.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DEnFG.py" beforeDir="false" afterPath="$PROJECT_DIR$/DEnFG.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Loopy_Belief_Propagation.py" beforeDir="false" afterPath="$PROJECT_DIR$/Loopy_Belief_Propagation.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/experiment4.py" beforeDir="false" afterPath="$PROJECT_DIR$/experiment4.py" afterDir="false" />
-    </list>
+    <list default="true" id="42d3998f-3606-4d4b-96d2-6087d96e4033" name="Default" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
